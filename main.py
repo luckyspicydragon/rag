@@ -30,7 +30,7 @@ def process_pdfs(pdf_dir, db_chroma):
 
 def call_rag(query, prompt_template, db_chroma):
     # Retrieve context (you might need to adjust 'k' for more/less context)
-    docs_chroma = db_chroma.similarity_search_with_score(query, k=5)
+    docs_chroma = db_chroma.similarity_search_with_score(query, k=50)
     context_text = "\n\n".join([doc.page_content for doc, _score in docs_chroma])
 
     # Format the prompt with context and query
@@ -73,7 +73,7 @@ if __name__ == "__main__":
     embeddings = OpenAIEmbeddings(openai_api_key=api_key)
     db_chroma = Chroma(persist_directory=chroma_path, embedding_function=embeddings) 
     
-    process_pdfs(docs_dir, db_chroma)
+    # process_pdfs(docs_dir, db_chroma)
     
     response_text, context_text = call_rag(
         query=query,
